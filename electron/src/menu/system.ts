@@ -356,24 +356,20 @@ const processMenu = (template: Iterable<MenuItemConstructorOptions>, language: S
   }
 };
 
-const changeLocale = (language: Supportedi18nLanguage): void => {
+const changeLocale = async (language: Supportedi18nLanguage): Promise<void> => {
   locale.setLocale(language);
-  dialog.showMessageBox(
-    {
-      buttons: [
-        locale.getText('restartLater'),
-        EnvironmentUtil.platform.IS_MAC_OS ? locale.getText('menuQuit') : locale.getText('restartNow'),
-      ],
-      message: locale.getText('restartLocale'),
-      title: locale.getText('restartNeeded'),
-      type: 'info',
-    },
-    response => {
-      if (response === 1) {
-        return EnvironmentUtil.platform.IS_MAC_OS ? lifecycle.quit() : lifecycle.relaunch();
-      }
-    },
-  );
+  const {response} = await dialog.showMessageBox({
+    buttons: [
+      locale.getText('restartLater'),
+      EnvironmentUtil.platform.IS_MAC_OS ? locale.getText('menuQuit') : locale.getText('restartNow'),
+    ],
+    message: locale.getText('restartLocale'),
+    title: locale.getText('restartNeeded'),
+    type: 'info',
+  });
+  if (response === 1) {
+    return EnvironmentUtil.platform.IS_MAC_OS ? lifecycle.quit() : lifecycle.relaunch();
+  }
 };
 
 export const createMenu = (isFullScreen: boolean): Menu => {

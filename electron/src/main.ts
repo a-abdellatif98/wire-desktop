@@ -410,7 +410,7 @@ class ElectronWrapperInit {
       }
     };
 
-    app.on('web-contents-created', (webviewEvent: Electron.Event, contents: Electron.WebContents) => {
+    app.on('web-contents-created', async (webviewEvent: Electron.Event, contents: Electron.WebContents) => {
       WebViewFocus.bindTracker(webviewEvent, contents);
 
       switch (contents.getType()) {
@@ -454,7 +454,7 @@ class ElectronWrapperInit {
             });
           }
 
-          contents.session.setCertificateVerifyProc(setCertificateVerifyProc);
+          await contents.session.setCertificateVerifyProc(setCertificateVerifyProc);
 
           // Override remote Access-Control-Allow-Origin for localhost (CORS bypass)
           const isLocalhostEnvironment =
