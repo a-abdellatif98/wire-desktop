@@ -207,7 +207,7 @@ const editTemplate: MenuItemConstructorOptions = {
     separatorTemplate,
     {
       label: locale.getText('menuSelectAll'),
-      role: 'selectall',
+      role: 'selectAll',
     },
   ],
 };
@@ -291,7 +291,7 @@ const darwinTemplate: MenuItemConstructorOptions = {
     },
     {
       label: locale.getText('menuHideOthers'),
-      role: 'hideothers',
+      role: 'hideOthers',
     },
     {
       label: locale.getText('menuShowAll'),

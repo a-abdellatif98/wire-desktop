@@ -18,7 +18,7 @@
  */
 
 import {LogFactory, ValidationUtil} from '@wireapp/commons';
-import {BrowserWindow, Event, IpcMessageEvent, Menu, app, ipcMain, shell} from 'electron';
+import {BrowserWindow, Event, Menu, app, ipcMain, shell} from 'electron';
 import WindowStateKeeper = require('electron-window-state');
 import fileUrl = require('file-url');
 import * as fs from 'fs-extra';
@@ -97,7 +97,7 @@ Object.entries(config).forEach(([key, value]) => {
 
 // IPC events
 const bindIpcEvents = () => {
-  ipcMain.on(EVENT_TYPE.ACTION.SAVE_PICTURE, (event: IpcMessageEvent, bytes: Uint8Array, timestamp?: string) => {
+  ipcMain.on(EVENT_TYPE.ACTION.SAVE_PICTURE, (event, bytes: Uint8Array, timestamp?: string) => {
     return downloadImage(bytes, timestamp);
   });
 
@@ -105,17 +105,14 @@ const bindIpcEvents = () => {
     WindowManager.showPrimaryWindow();
   });
 
-  ipcMain.on(EVENT_TYPE.UI.BADGE_COUNT, (event: IpcMessageEvent, count: number) => {
+  ipcMain.on(EVENT_TYPE.UI.BADGE_COUNT, (event, count: number) => {
     tray.showUnreadCount(main, count);
   });
 
-  ipcMain.on(
-    EVENT_TYPE.ACCOUNT.DELETE_DATA,
-    async (event: IpcMessageEvent, id: number, accountId: string, partitionId?: string) => {
-      await deleteAccount(id, accountId, partitionId);
-      main.webContents.send(EVENT_TYPE.ACCOUNT.DATA_DELETED);
-    },
-  );
+  ipcMain.on(EVENT_TYPE.ACCOUNT.DELETE_DATA, async (event, id: number, accountId: string, partitionId?: string) => {
+    await deleteAccount(id, accountId, partitionId);
+    main.webContents.send(EVENT_TYPE.ACCOUNT.DATA_DELETED);
+  });
   ipcMain.on(EVENT_TYPE.WRAPPER.RELAUNCH, lifecycle.relaunch);
   ipcMain.on(EVENT_TYPE.ABOUT.SHOW, AboutWindow.showWindow);
   ipcMain.on(EVENT_TYPE.UI.TOGGLE_MENU, systemMenu.toggleMenuBar);
@@ -222,7 +219,7 @@ const showMainWindow = async (mainWindowState: WindowStateKeeper.State) => {
     event.preventDefault();
 
     // Ensure the link does not come from a webview
-    if (typeof (event.sender as any).viewInstanceId !== 'undefined') {
+    if (typeof (event as any).sender.viewInstanceId !== 'undefined') {
       logger.log('New window was created from a webview, aborting.');
       return;
     }
