@@ -64,7 +64,7 @@
     "electron-mocha": "8.1.2",
     "electron-rebuild": "1.8.6",
     "eslint": "6.3.0",
-    "eslint-config-prettier": "6.2.0",
+    "eslint-config-prettier": "6.3.0",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jasmine": "2.10.1",
     "eslint-plugin-jsdoc": "15.9.1",
@@ -88,11 +88,11 @@
     "tslint-plugin-prettier": "2.0.1",
     "tslint-react": "4.0.0",
     "tslint-react-hooks": "2.2.1",
-    "typescript": "3.6.2",
+    "typescript": "3.6.3",
     "webpack": "4.39.3",
     "webpack-cli": "3.3.8",
     "wire-web-config-internal": "https://github.com/wireapp/wire-web-config-default#v0.23.13",
-    "wire-web-config-production": "https://github.com/wireapp/wire-web-config-wire#v0.23.9-0"
+    "wire-web-config-production": "https://github.com/wireapp/wire-web-config-wire#v0.23.14-0"
   },
   "homepage": "https://wire.com",
   "husky": {
